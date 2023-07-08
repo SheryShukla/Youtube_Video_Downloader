@@ -1,0 +1,48 @@
+# Import required Libraries
+from tkinter import *
+
+import pytube
+
+# Create Display Window
+root = Tk()
+root.resizable(0, 0)
+root.geometry('600x550')
+root.configure(bg='#ffffff')
+root.title('Youtube Downloader')
+
+# Label which displays text on the GUI
+Label(root, text='YOUTUBE VIDEO DOWNLOADER', font='arial 20 bold', bg='white', fg='black').pack()
+Label(root, text='Enter Link - ', font='arial 15 bold', bg='#E83C3C', fg='white').place(x=80, y=60)
+
+# Background Image to be displayed on created GUI
+photo = PhotoImage(file="../../../Pictures/youtube.png")
+lbl = Label(image=photo, bg='white').place(x=125, y=150)
+
+# Variable to store user entered link![](../../../Pictures/youtube.png)
+link = StringVar()
+
+# Create! an entry field which accepts link from user
+enter_link = Entry(root, width=70, borderwidth=5, textvariable=link).place(x=80, y=100)
+
+
+DownloadPath = StringVar()
+Label(root, text='Download location - ', font='arial 15 bold', bg='#E83C3C', fg='white').place(x=80, y=135)
+DownloadPath_enter = Entry(root, width=70, borderwidth=5, textvariable=DownloadPath, bg='white').place(x=80, y=170)
+# Function to download the user entered link
+
+
+def downloader():
+    # Getting the user entered link and assigning it to YouTube class in pytube
+    url = pytube.YouTube(str(link.get()))
+    video = url.streams.get_highest_resolution()
+    video.download(str(DownloadPath.get()))
+
+    # To acknowledge user that the video has downloaded after it's completion
+    Label(root, text='Downloaded').place(x=215, y=390)
+
+
+# Button to start the downloading the video of provided url
+Button(root, text='Download Here', command=downloader, font='arial 20 normal', fg='white', bg='#5691E9').place(x=190, y=450)
+
+# To start the interface and display the properties in it
+root.mainloop()
